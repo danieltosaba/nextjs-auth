@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const secret = \"0e900be1-0ac5-4e6a-bf4b-38f8b21a189b\";","map":{"version":3,"sources":["/Users/daniel/Documents/development/NEXTJS/nextjs-auth/api/secret.ts"],"names":["secret"],"mappings":"AAAA,OAAO,MAAMA,MAAM,GAAG,sCAAf","sourcesContent":["export const secret = \"0e900be1-0ac5-4e6a-bf4b-38f8b21a189b\";"]},"metadata":{},"sourceType":"module"}
