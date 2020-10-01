@@ -93,58 +93,126 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/containers/Homepage.tsx":
-/*!*************************************!*\
-  !*** ./src/containers/Homepage.tsx ***!
-  \*************************************/
-/*! exports provided: HomePage */
+/***/ "./api/myGet.ts":
+/*!**********************!*\
+  !*** ./api/myGet.ts ***!
+  \**********************/
+/*! exports provided: myGet */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomePage", function() { return HomePage; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "/Users/daniel/Documents/development/NEXTJS/nextjs-auth/src/containers/Homepage.tsx";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "myGet", function() { return myGet; });
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! isomorphic-unfetch */ "isomorphic-unfetch");
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next/router */ "next/router");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_1__);
 
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
-function HomePage() {
-  return __jsx("h1", {
-    __self: this,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 2,
-      columnNumber: 12
+
+async function myGet(url, ctx) {
+  var _ctx$req;
+
+  const cookie = (_ctx$req = ctx.req) === null || _ctx$req === void 0 ? void 0 : _ctx$req.headers.cookie;
+  const response = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_0___default()(url, {
+    headers: {
+      cookie: cookie
     }
-  }, "Hello");
+  });
+
+  if (response.status === 401 && !ctx.req) {
+    next_router__WEBPACK_IMPORTED_MODULE_1___default.a.replace("/login");
+    return {};
+  }
+
+  if (response.status === 401 && ctx.req) {
+    var _ctx$res, _ctx$res2;
+
+    (_ctx$res = ctx.res) === null || _ctx$res === void 0 ? void 0 : _ctx$res.writeHead(302, {
+      Location: "http://localhost:3000/login"
+    });
+    (_ctx$res2 = ctx.res) === null || _ctx$res2 === void 0 ? void 0 : _ctx$res2.end();
+    return;
+  }
+
+  const json = await response.json();
+  return json;
 }
 
 /***/ }),
 
-/***/ "./src/pages/index.tsx":
-/*!*****************************!*\
-  !*** ./src/pages/index.tsx ***!
-  \*****************************/
-/*! exports provided: default */
+/***/ "./src/pages/vehicles.tsx":
+/*!********************************!*\
+  !*** ./src/pages/vehicles.tsx ***!
+  \********************************/
+/*! exports provided: default, getServerSideProps */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _containers_Homepage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../containers/Homepage */ "./src/containers/Homepage.tsx");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return People; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getServerSideProps", function() { return getServerSideProps; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api_myGet__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/myGet */ "./api/myGet.ts");
+var _jsxFileName = "/Users/daniel/Documents/development/NEXTJS/nextjs-auth/src/pages/vehicles.tsx";
 
-/* harmony default export */ __webpack_exports__["default"] = (_containers_Homepage__WEBPACK_IMPORTED_MODULE_0__["HomePage"]);
+var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
+function People({
+  vehicles
+}) {
+  return __jsx("div", {
+    __self: this,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 5,
+      columnNumber: 10
+    }
+  }, JSON.stringify(vehicles));
+}
+async function getServerSideProps(ctx) {
+  const vehicles = await Object(_api_myGet__WEBPACK_IMPORTED_MODULE_1__["myGet"])("http://localhost:3000/api/vehicles", ctx);
+  return {
+    props: {
+      vehicles
+    } // will be passed to the page component as props
+
+  };
+}
 
 /***/ }),
 
 /***/ 3:
-/*!***********************************!*\
-  !*** multi ./src/pages/index.tsx ***!
-  \***********************************/
+/*!**************************************!*\
+  !*** multi ./src/pages/vehicles.tsx ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/daniel/Documents/development/NEXTJS/nextjs-auth/src/pages/index.tsx */"./src/pages/index.tsx");
+module.exports = __webpack_require__(/*! /Users/daniel/Documents/development/NEXTJS/nextjs-auth/src/pages/vehicles.tsx */"./src/pages/vehicles.tsx");
 
+
+/***/ }),
+
+/***/ "isomorphic-unfetch":
+/*!*************************************!*\
+  !*** external "isomorphic-unfetch" ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("isomorphic-unfetch");
+
+/***/ }),
+
+/***/ "next/router":
+/*!******************************!*\
+  !*** external "next/router" ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("next/router");
 
 /***/ }),
 
@@ -160,4 +228,4 @@ module.exports = require("react");
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=vehicles.js.map
